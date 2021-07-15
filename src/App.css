@@ -1,38 +1,102 @@
-.App {
+button {
+  max-width: 100%;
+  width: 200px;
+  margin: 10px;
+  padding: 15px 45px;
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
   color: white;
+  border-radius: 10px;
+  display: block;
+  border: 0;
+  box-shadow: 0 0 5px #eee;
+  cursor: pointer;
+  background-image: linear-gradient(
+    to right,
+    #314755 0%,
+    #26a0da 51%,
+    #314755 100%
+  );
 }
 
-.App-link {
-  color: #61dafb;
+button:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 0 5px #eee;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.app {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(
+    circle,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.game-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.16);
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-gap: 10px;
+  place-items: center;
+}
+
+.game-board {
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #26a0da;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 10px;
+}
+
+.game-control {
+}
+
+.game-title {
+  text-align: center;
+  text-shadow: 3px 3px #26a0da;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.game-pokemon {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  place-items: stretch;
+  justify-content: center;
+}
+
+.pokemon-card {
+  border: 1px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #26a0da;
+  transition: all 1.5s;
+}
+
+.pokemon-card.selected {
+  background-color: #020024 !important;
+}
+.pokemon-card.hidden {
+  opacity: 0;
 }

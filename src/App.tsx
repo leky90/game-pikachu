@@ -1,25 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import GamePokemonPage from "./pages/GamePokemonPage";
+import AppProvider from "./context/AppProvider";
+import { Page } from "./context/AppContext";
+import Route from "./components/Route";
+import BoardGamePage from "./pages/BoardGamePage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppProvider>
+      <div className="app">
+        <Route match={Page.BOARD} component={<BoardGamePage />} />
+        <Route match={Page.POKEMON} component={<GamePokemonPage />} />
+      </div>
+    </AppProvider>
   );
 }
 
