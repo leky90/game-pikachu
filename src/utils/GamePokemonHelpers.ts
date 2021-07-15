@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { PointCoords, Pokemon, PokemonCoords } from "../context/AppContext";
 
-export const pokemonList: Pokemon[] = [
+export let pokemonList: Pokemon[] = [
   { id: "poke-0", matched: false, color: "red" },
   { id: "poke-1", matched: false, color: "blue" },
   { id: "poke-2", matched: false, color: "green" },
@@ -26,7 +26,10 @@ export const randomOrderPokemonList = (nonOrderList: Pokemon[]) => {
 
 export const makeListPokemons = (reset: boolean = false) => {
   if (reset) {
-    pokemonList.map((pokemon) => ({ ...pokemon, matched: false }));
+    pokemonList = pokemonList.map((pokemon) => ({
+      ...pokemon,
+      matched: false,
+    }));
   }
   const pairPokemonList = [...pokemonList, ...pokemonList];
   const arrayPokemons = randomOrderPokemonList(pairPokemonList);
@@ -227,7 +230,7 @@ export const checkAvailableLine = (
           scannedPoints
         )
       ) {
-        console.log(`step: ${step++}`, rowIndex, colIndex);
+        // console.log(`step: ${step++}`, rowIndex, colIndex);
 
         scannedPoints.push({ rowIndex, colIndex });
 
@@ -240,13 +243,11 @@ export const checkAvailableLine = (
           scannedPoints,
           true
         );
-        console.log(newPendingPoints);
+
         pendingPoints = [...pendingPoints, ...newPendingPoints];
       }
     }
   }
-
-  console.log(matched);
 
   return {
     matched,

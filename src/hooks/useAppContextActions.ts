@@ -12,26 +12,12 @@ export default function useAppContextActions() {
   const getState = (key: keyof AppStore) => state[key];
 
   const getGameState = () => {
-    const matrix = state.gameState?.matrix ?? [];
-    const pokemons = state.gameState?.pokemons ?? {};
-    const selectedPokemons = state.gameState?.selectedPokemons ?? [];
-
-    console.log("pokemons", pokemons);
-    return {
-      pokemonMatrix: matrix,
-      pokemons,
-      selectedPokemons,
-    };
+    return { ...state.gameState };
   };
 
-  const checkGameRule = () => {
-    dispatch({ type: AppAction.CHECK_RULE });
+  const getGameSettings = () => {
+    return { ...state.gameSettings };
   };
-
-  // useEffect(() => {
-  //   checkGameRule();
-  //   return () => {};
-  // }, []);
 
   return {
     getState,
@@ -39,6 +25,6 @@ export default function useAppContextActions() {
     navigate,
     currentPage: state.page,
     getGameState,
-    checkGameRule,
+    getGameSettings,
   };
 }

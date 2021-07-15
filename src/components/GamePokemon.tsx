@@ -7,12 +7,12 @@ type GamePokemonProps = {};
 const GamePokemon: FC<GamePokemonProps> = () => {
   const { getGameState } = useAppContextActions();
 
-  const { pokemonMatrix, selectedPokemons } = getGameState();
+  const { matrix, selectedPokemons } = getGameState();
 
   return (
     <div className="game-pokemon">
-      {pokemonMatrix &&
-        pokemonMatrix.map((pokemons, index) => (
+      {matrix &&
+        matrix.map((pokemons, index) => (
           <PokemonRow
             key={`row-${index}`}
             rowIndex={index}

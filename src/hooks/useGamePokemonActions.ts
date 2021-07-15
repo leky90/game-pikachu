@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Game, GameState } from "../context/AppContext";
+import { Game } from "../context/AppContext";
 import { AppAction } from "../context/AppReducer";
 import useAppContextActions from "./useAppContextActions";
 
 export default function useGamePokemonActions(row = 4, col = 8) {
-  const { dispatch, getState } = useAppContextActions();
+  const { dispatch, getGameState, getGameSettings } = useAppContextActions();
 
   const initGame = () => {
     dispatch({
@@ -18,9 +18,6 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   const rotatePokemons = () => {
     dispatch({
       type: AppAction.ROTATE_POKEMONS,
-      payload: {
-        name: Game.POKEMON,
-      },
     });
   };
 
@@ -32,31 +29,36 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   const replayGame = () => {
     dispatch({
       type: AppAction.REPLAY_GAME,
-      payload: {
-        name: Game.POKEMON,
-      },
     });
   };
 
   const exitGame = () => {
     dispatch({
-      type: AppAction.REPLAY_GAME,
+      type: AppAction.EXIT_GAME,
       payload: {
-        name: Game.POKEMON,
+        name: null,
       },
     });
   };
 
   const startGame = () => {
-    alert("Start game.");
+    dispatch({
+      type: AppAction.START_GAME,
+      payload: {
+        name: null,
+      },
+    });
   };
 
-  const gameState = getState("gameState") as GameState;
+  const gameState = getGameState();
+  const gameSettings = getGameSettings();
 
   return {
     row,
     col,
-    pokemons: gameState?.pokemons,
+    pokemons: gameState.pokemons,
+    gameSettings,
+    gameState,
     rotatePokemons,
     replayGame,
     startGame,

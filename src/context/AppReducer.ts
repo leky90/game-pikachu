@@ -2,17 +2,26 @@ import { AppStore, GameState } from "./AppContext";
 import {
   checkAvailableLine,
   generatePokemonMatrix,
-  makeListPokemons,
 } from "../utils/GamePokemonHelpers";
+import {
+  exitGameReducer,
+  replayGameReducer,
+  rotatePokemonsReducer,
+  selectPokemonCardReducer,
+  setGameReducer,
+  startGameReducer,
+} from "../reducers/PokemonReducer";
 
 export enum AppAction {
   NAVIGATE_PAGE = "navigate_page",
+  START_GAME = "start_game",
   SET_GAME = "set_game",
   RESET_GAME = "reset_game",
   SELECT_POKEMON = "select_pokemon",
   CHECK_RULE = "check_rule",
   ROTATE_POKEMONS = "rotate_pokemons",
   REPLAY_GAME = "replay_game",
+  EXIT_GAME = "exit_game",
 }
 
 export interface Action {
@@ -28,125 +37,18 @@ export default function AppReducer(
     case AppAction.NAVIGATE_PAGE: {
       return { ...state, page: action.payload };
     }
-    case AppAction.SET_GAME: {
-      const pokemons = makeListPokemons();
-      const matrix = generatePokemonMatrix(pokemons);
-      return {
-        ...state,
-        gameSettings: {
-          ...action.payload,
-        },
-        gameState: {
-          selectedPokemons: [],
-          pokemons,
-          matrix,
-        },
-      };
-    }
-    case AppAction.REPLAY_GAME: {
-      const pokemons = makeListPokemons();
-      const matrix = generatePokemonMatrix(pokemons);
-      console.log("reducer", pokemons);
-      return {
-        ...state,
-        gameSettings: {
-          ...action.payload,
-        },
-        gameState: {
-          selectedPokemons: [],
-          pokemons,
-          matrix,
-        },
-      };
-    }
-    case AppAction.ROTATE_POKEMONS: {
-      const pokemons = makeListPokemons();
-      const matrix = generatePokemonMatrix(pokemons);
-      return {
-        ...state,
-        gameSettings: {
-          ...action.payload,
-        },
-        gameState: {
-          selectedPokemons: [],
-          pokemons,
-          matrix,
-        },
-      };
-    }
-    // case AppAction.CHECK_RULE: {
-    //   const pokemons = state.gameState?.pokemons
-    //     ? { ...state.gameState?.pokemons }
-    //     : {};
-    //   const selectedPokemons = state.gameState?.selectedPokemons
-    //     ? [...state.gameState?.selectedPokemons]
-    //     : [];
-    //   const [nid1, nid2] = selectedPokemons;
-
-    //   if (nid1 && nid2 && pokemons[nid1].id === pokemons[nid2].id) {
-    //     pokemons[nid1].matched = true;
-    //     pokemons[nid2].matched = true;
-    //   }
-
-    //   return {
-    //     ...state,
-    //     gameState: { ...state.gameState, selectedPokemons } as GameState,
-    //   };
-    // }
-    case AppAction.SELECT_POKEMON: {
-      let matrix = state.gameState?.matrix ? [...state.gameState?.matrix] : [];
-      const selectedPokemons = state.gameState?.selectedPokemons
-        ? [...state.gameState?.selectedPokemons]
-        : [];
-
-      if (selectedPokemons.length >= 2) {
-        selectedPokemons.length = 0;
-      }
-
-      selectedPokemons.push(action.payload);
-
-      const pokemons = state.gameState?.pokemons
-        ? { ...state.gameState?.pokemons }
-        : {};
-      const totalRow = 4;
-      const totalCol = 8;
-      const [selectedPokemon1, selectedPokemon2] = selectedPokemons;
-
-      if (
-        selectedPokemon1 &&
-        selectedPokemon2 &&
-        pokemons[selectedPokemon1.nid].id === pokemons[selectedPokemon2.nid].id
-      ) {
-        const { matched } = checkAvailableLine(
-          selectedPokemon1,
-          selectedPokemon2,
-          matrix,
-          totalRow,
-          totalCol
-        );
-
-        if (matched) {
-          pokemons[selectedPokemon1.nid].matched = true;
-          pokemons[selectedPokemon2.nid].matched = true;
-          matrix = generatePokemonMatrix(pokemons);
-        } else {
-          selectedPokemons.length = 0;
-        }
-      } else {
-        if (selectedPokemons.length === 2) {
-          selectedPokemons.length = 0;
-        }
-      }
-
-      return {
-        ...state,
-        gameState: {
-          ...state.gameState,
-          matrix,
-          selectedPokemons,
-        } as GameState,
-      };
-    }
+    case AppAction.SET_GAME:
+      return setGameReducer(state, action.payload);
+    case AppAction.START_GAME:
+      return startGameReducer(state);
+    case AppAction.REPLAY_GAME:
+      return replayGameReducer(state);
+    case AppAction.EXIT_GAME:
+      return exitGameReducer(state);
+    case AppAction.ROTATE_POKEMONS:
+      return rotatePokemonsReducer(state);
+    case AppAction.SELECT_POKEMON:
+      return selectPokemonCardReducer(state, action.payload);
     default:
       throw new Error();
   }

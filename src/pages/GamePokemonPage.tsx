@@ -1,28 +1,31 @@
 import AppNavigation from "../components/AppNavigation";
+import GameInfo from "../components/GameInfo";
 import GamePokemon from "../components/GamePokemon";
-import { GameSettings, Page } from "../context/AppContext";
-import useAppContextActions from "../hooks/useAppContextActions";
 import useGamePokemonActions from "../hooks/useGamePokemonActions";
 
 const GamePokemonPage = () => {
-  const { navigate, getState } = useAppContextActions();
-  const { replayGame, startGame, rotatePokemons, exitGame } =
+  const { replayGame, startGame, rotatePokemons, exitGame, gameState } =
     useGamePokemonActions();
 
-  const navItems = [
-    { label: "Rotate pokemons", action: () => rotatePokemons() },
-    { label: "Start game", action: () => startGame() },
-    { label: "Re-play game", action: () => replayGame() },
+  let navItems = [
     {
       label: "Exit game",
-      action: () => {
-        exitGame();
-        navigate(Page.BOARD);
-      },
+      action: () => exitGame(),
     },
   ];
 
-  const gameSettings = getState("gameSettings") as GameSettings;
+  if (gameState.running) {
+    navItems = [
+      { label: "Rotate pokemons", action: () => rotatePokemons() },
+      { label: "Re-play game", action: () => replayGame() },
+      ...navItems,
+    ];
+  } else {
+    navItems = [
+      { label: "Start game", action: () => startGame() },
+      ...navItems,
+    ];
+  }
 
   return (
     <div className="game-container">
@@ -30,7 +33,7 @@ const GamePokemonPage = () => {
         <GamePokemon />
       </div>
       <div className="game-control">
-        <h1 className="game-title">{gameSettings?.name}</h1>
+        <GameInfo />
         <AppNavigation navItems={navItems} />
       </div>
     </div>
