@@ -141,6 +141,7 @@ export const selectPokemonCardReducer = (
   } else {
     if (selectedPokemons.length === 2) {
       selectedPokemons.length = 0;
+      connectingLinePoints = [{ rowIndex: -1, colIndex: -1 }];
     }
   }
 

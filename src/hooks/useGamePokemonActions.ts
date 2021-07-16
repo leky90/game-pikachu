@@ -1,9 +1,20 @@
 import { useEffect } from "react";
-import { Game, GameMode } from "../context/AppContext";
+import { Game } from "../context/AppContext";
 import { AppAction } from "../context/AppReducer";
 import useAppContextActions from "./useAppContextActions";
+import usePlaySound from "./usePlaySound";
 
 export default function useGamePokemonActions(row = 4, col = 8) {
+  const {
+    playMenuOpen,
+    playDisableSound,
+    playEnableSound,
+    playFanfareSound,
+    playGlugSound,
+    playBiteSound,
+    playRisingPopSound,
+    playEndTimeSound,
+  } = usePlaySound();
   const { dispatch, getGameState, getGameSettings } = useAppContextActions();
 
   const initGame = () => {
@@ -16,6 +27,7 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   };
 
   const rotatePokemons = () => {
+    playMenuOpen();
     dispatch({
       type: AppAction.ROTATE_POKEMONS,
     });
@@ -27,12 +39,14 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   }, []);
 
   const replayGame = () => {
+    playEnableSound();
     dispatch({
       type: AppAction.REPLAY_GAME,
     });
   };
 
   const exitGame = () => {
+    playDisableSound();
     dispatch({
       type: AppAction.EXIT_GAME,
       payload: {
@@ -42,6 +56,7 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   };
 
   const startGame = () => {
+    playFanfareSound();
     dispatch({
       type: AppAction.START_GAME,
       payload: {
@@ -51,6 +66,7 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   };
 
   const changeGameMode = () => {
+    playMenuOpen();
     dispatch({
       type: AppAction.CHANGE_GAME_MODE,
     });
@@ -58,6 +74,18 @@ export default function useGamePokemonActions(row = 4, col = 8) {
 
   const gameState = getGameState();
   const gameSettings = getGameSettings();
+
+  if (gameState.connectingLinePoints.length > 1) {
+    playRisingPopSound();
+  }
+
+  if (gameState.connectingLinePoints.length === 1) {
+    playGlugSound();
+  }
+
+  if (gameState.selectedPokemons.length === 1) {
+    playBiteSound();
+  }
 
   return {
     row,
@@ -70,5 +98,15 @@ export default function useGamePokemonActions(row = 4, col = 8) {
     startGame,
     exitGame,
     changeGameMode,
+    gameSound: {
+      playMenuOpen,
+      playDisableSound,
+      playEnableSound,
+      playFanfareSound,
+      playGlugSound,
+      playBiteSound,
+      playRisingPopSound,
+      playEndTimeSound,
+    },
   };
 }

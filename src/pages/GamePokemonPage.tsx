@@ -5,6 +5,7 @@ import GamePokemon from "../components/GamePokemon";
 import GameSettings from "../components/GameSettings";
 import useGamePokemonActions from "../hooks/useGamePokemonActions";
 import GameResult from "../components/GameResult";
+import { memo } from "react";
 
 const GamePokemonPage = () => {
   const {
@@ -58,4 +59,8 @@ const GamePokemonPage = () => {
   );
 };
 
-export default GamePokemonPage;
+function checkEqual() {
+  return false;
+}
+
+export default memo(GamePokemonPage, checkEqual);

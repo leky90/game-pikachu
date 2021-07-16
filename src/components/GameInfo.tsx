@@ -19,8 +19,9 @@ const GameInfo = ({ gameTiming }: GameInfoProps) => {
   }, 0);
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout | undefined = undefined;
     if (gameState.running) {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         if (gameTiming > 0) {
           setTiming(timing - 1);
         } else {
@@ -32,7 +33,7 @@ const GameInfo = ({ gameTiming }: GameInfoProps) => {
     }
     return () => {
       if (!gameState.running) {
-        console.log("clear", gameState.running);
+        if (timeoutId) clearTimeout(timeoutId);
       }
     };
   }, [timing, gameState.running, gameTiming]);

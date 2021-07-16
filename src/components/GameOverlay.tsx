@@ -6,10 +6,9 @@ type GameOverlayProps = {};
 
 const GameOverlay: FC<GameOverlayProps> = () => {
   const { getGameState, getGameSettings } = useAppContextActions();
-
   const { matrix, connectingLinePoints } = getGameState();
   const {
-    settings: { col, row, mode },
+    settings: { col, mode },
   } = getGameSettings();
 
   const columnCards = new Array(col + 2).fill(false);

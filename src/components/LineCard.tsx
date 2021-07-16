@@ -21,7 +21,7 @@ const LineCard: FC<LineCardProps> = ({ point, rowIndex, colIndex }) => {
       }
     }, 500);
     return () => {};
-  }, [lineRef]);
+  }, [lineRef, direction, type]);
 
   return (
     <div ref={lineRef} className={`line-card ${pointClass}`}>
