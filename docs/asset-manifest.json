@@ -1,0 +1,37 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c1cfa732.chunk.css",
+    "main.js": "/static/js/main.d74a18e7.chunk.js",
+    "main.js.map": "/static/js/main.d74a18e7.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.e63db9e3.js",
+    "runtime-main.js.map": "/static/js/runtime-main.e63db9e3.js.map",
+    "static/js/2.c4cf571c.chunk.js": "/static/js/2.c4cf571c.chunk.js",
+    "static/js/2.c4cf571c.chunk.js.map": "/static/js/2.c4cf571c.chunk.js.map",
+    "static/js/3.7e0ffcb4.chunk.js": "/static/js/3.7e0ffcb4.chunk.js",
+    "static/js/3.7e0ffcb4.chunk.js.map": "/static/js/3.7e0ffcb4.chunk.js.map",
+    "static/js/4.c6139a38.chunk.js": "/static/js/4.c6139a38.chunk.js",
+    "static/js/4.c6139a38.chunk.js.map": "/static/js/4.c6139a38.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.c1cfa732.chunk.css.map": "/static/css/main.c1cfa732.chunk.css.map",
+    "static/js/2.c4cf571c.chunk.js.LICENSE.txt": "/static/js/2.c4cf571c.chunk.js.LICENSE.txt",
+    "static/js/3.7e0ffcb4.chunk.js.LICENSE.txt": "/static/js/3.7e0ffcb4.chunk.js.LICENSE.txt",
+    "static/media/1-trieu-like.90d13956.mp3": "/static/media/1-trieu-like.90d13956.mp3",
+    "static/media/App.css": "/static/media/bg-board.41d2281b.png",
+    "static/media/bite.aea7caff.mp3": "/static/media/bite.aea7caff.mp3",
+    "static/media/disable-sound.477d0574.mp3": "/static/media/disable-sound.477d0574.mp3",
+    "static/media/enable-sound.00d0be95.mp3": "/static/media/enable-sound.00d0be95.mp3",
+    "static/media/fanfare.8807360a.mp3": "/static/media/fanfare.8807360a.mp3",
+    "static/media/game-completion.a7022fca.wav": "/static/media/game-completion.a7022fca.wav",
+    "static/media/gamers-fail-game.1bab0c1d.mp3": "/static/media/gamers-fail-game.1bab0c1d.mp3",
+    "static/media/glug-a.b9f1fa99.mp3": "/static/media/glug-a.b9f1fa99.mp3",
+    "static/media/menu-open.019cf647.mp3": "/static/media/menu-open.019cf647.mp3",
+    "static/media/rising-pops.7eda816b.mp3": "/static/media/rising-pops.7eda816b.mp3",
+    "static/media/time-limited.3894918f.wav": "/static/media/time-limited.3894918f.wav"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e63db9e3.js",
+    "static/js/2.c4cf571c.chunk.js",
+    "static/css/main.c1cfa732.chunk.css",
+    "static/js/main.d74a18e7.chunk.js"
+  ]
+}
