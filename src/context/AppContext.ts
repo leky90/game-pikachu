@@ -3,7 +3,6 @@ import { Action } from "./AppReducer";
 
 export type Pokemon = {
   id: string;
-  color: string;
   matched: boolean;
   nid?: string;
   image?: string;
@@ -19,25 +18,46 @@ export enum GameMode {
   EASY = "easy",
 }
 
+export enum GameStatus {
+  PENDING = "pending",
+  COMPLETED = "completed",
+  FAILED = "failed",
+}
+
 export enum Page {
   BOARD = "board",
   POKEMON = "pokemon",
 }
 
+export enum Direction {
+  LEFT = "left",
+  RIGHT = "right",
+  TOP = "top",
+  BOTTOM = "bottom",
+}
+
+export enum PointType {
+  START = "start",
+  END = "end",
+  LINE = "line",
+}
+
 export type PointCoords = {
   rowIndex: number;
   colIndex: number;
+  direction?: Direction;
+  type?: PointType;
 };
 
 export type PokemonCoords = PointCoords & {
-  nid: string;
+  nid?: string;
 };
 
 export type GameSettings = {
   name: Game | null;
   settings: {
     audio: boolean;
-    timing: boolean;
+    timing: number;
     mode: GameMode;
     row: number;
     col: number;
@@ -48,6 +68,7 @@ export type GameOptions = {
   [key in GameMode]: {
     row: number;
     col: number;
+    timing: number;
   };
 };
 
@@ -56,6 +77,8 @@ export type GameState = {
   pokemons: Record<string, Pokemon>;
   matrix: Pokemon[][];
   running: boolean;
+  connectingLinePoints: PointCoords[];
+  status: GameStatus;
 };
 
 export interface AppStore {
@@ -66,16 +89,19 @@ export interface AppStore {
 
 export const gameOptions: GameOptions = {
   [GameMode.NORMAL]: {
-    row: 4,
-    col: 8,
+    row: 8,
+    col: 10,
+    timing: 1200,
   },
   [GameMode.EASY]: {
-    row: 3,
-    col: 6,
+    row: 6,
+    col: 8,
+    timing: 1800,
   },
   [GameMode.HARD]: {
-    row: 8,
+    row: 10,
     col: 12,
+    timing: 600,
   },
 };
 
@@ -83,7 +109,7 @@ export const initialGameSettings: GameSettings = {
   name: null,
   settings: {
     audio: true,
-    timing: false,
+    timing: 0,
     mode: GameMode.NORMAL,
     row: gameOptions[GameMode.NORMAL].row,
     col: gameOptions[GameMode.NORMAL].col,
@@ -92,9 +118,11 @@ export const initialGameSettings: GameSettings = {
 
 export const initialGameState: GameState = {
   selectedPokemons: [],
+  connectingLinePoints: [],
   pokemons: {},
   matrix: [],
   running: false,
+  status: GameStatus.PENDING,
 };
 
 export const initialState: AppStore = {

@@ -1,11 +1,21 @@
 import AppNavigation from "../components/AppNavigation";
 import GameInfo from "../components/GameInfo";
+import GameOverlay from "../components/GameOverlay";
 import GamePokemon from "../components/GamePokemon";
+import GameSettings from "../components/GameSettings";
 import useGamePokemonActions from "../hooks/useGamePokemonActions";
+import GameResult from "../components/GameResult";
 
 const GamePokemonPage = () => {
-  const { replayGame, startGame, rotatePokemons, exitGame, gameState } =
-    useGamePokemonActions();
+  const {
+    replayGame,
+    startGame,
+    rotatePokemons,
+    exitGame,
+    changeGameMode,
+    gameState,
+    gameSettings,
+  } = useGamePokemonActions();
 
   let navItems = [
     {
@@ -30,10 +40,18 @@ const GamePokemonPage = () => {
   return (
     <div className="game-container">
       <div className="game-board">
-        <GamePokemon />
+        {gameState.connectingLinePoints.length > 0 && <GameOverlay />}
+        {gameState.running && <GamePokemon />}
+        <GameResult />
       </div>
       <div className="game-control">
-        <GameInfo />
+        <GameInfo gameTiming={gameSettings.settings.timing} />
+        {!gameState.running && (
+          <GameSettings
+            mode={gameSettings.settings.mode}
+            changeGameMode={changeGameMode}
+          />
+        )}
         <AppNavigation navItems={navItems} />
       </div>
     </div>

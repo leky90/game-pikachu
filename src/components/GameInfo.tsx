@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import useAppContextActions from "../hooks/useAppContextActions";
-import { timeConvert } from "../utils/TimeHelper";
+import { timeConvert } from "../utils/time";
 
-const GameInfo = () => {
-  const [timing, setTiming] = useState(0);
+type GameInfoProps = {
+  gameTiming: number;
+};
+
+const GameInfo = ({ gameTiming }: GameInfoProps) => {
+  const [timing, setTiming] = useState(gameTiming);
   const { getGameSettings, getGameState } = useAppContextActions();
 
   const gameSettings = getGameSettings();
@@ -15,11 +19,13 @@ const GameInfo = () => {
   }, 0);
 
   useEffect(() => {
-    console.log("gameState.running", gameState.running);
-    // let timeInterval: NodeJS.Timeout | null = null;
     if (gameState.running) {
       setTimeout(() => {
-        setTiming(timing + 1);
+        if (gameTiming > 0) {
+          setTiming(timing - 1);
+        } else {
+          setTiming(timing + 1);
+        }
       }, 1000);
     } else {
       setTiming(0);
@@ -29,7 +35,7 @@ const GameInfo = () => {
         console.log("clear", gameState.running);
       }
     };
-  }, [timing, gameState.running]);
+  }, [timing, gameState.running, gameTiming]);
 
   return (
     <div className="game-info">

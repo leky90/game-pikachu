@@ -5,13 +5,13 @@ import useAppContextActions from "../hooks/useAppContextActions";
 import PokemonCard from "./PokemonCard";
 
 type PokemonRowProps = {
-  pokemons: Pokemon[];
+  cards: Pokemon[];
   selectedPokemons: PokemonCoords[];
   rowIndex: number;
 };
 
 const PokemonRow: FC<PokemonRowProps> = ({
-  pokemons,
+  cards,
   selectedPokemons,
   rowIndex,
 }) => {
@@ -29,9 +29,8 @@ const PokemonRow: FC<PokemonRowProps> = ({
   };
 
   return (
-    // <div className="pokemon-row">
     <>
-      {pokemons.map((pokemon, index) => (
+      {cards.map((pokemon, index) => (
         <PokemonCard
           key={`card-${index}`}
           pokemon={pokemon}
@@ -45,7 +44,6 @@ const PokemonRow: FC<PokemonRowProps> = ({
         />
       ))}
     </>
-    // </div>
   );
 };
 

@@ -25,7 +25,9 @@ const PokemonCard: FC<PokemonCardProps> = ({
 
   return (
     <div
-      style={{ backgroundColor: pokemon.color }}
+      style={{
+        backgroundImage: `url(${pokemon.image ?? ""})`,
+      }}
       className={`pokemon-card ${selected} ${hidden}`}
       onClick={() =>
         !isSelected &&
@@ -34,7 +36,9 @@ const PokemonCard: FC<PokemonCardProps> = ({
         selectPokemon(pokemon.nid, rowIndex, colIndex)
       }
     >
-      {pokemon.id}
+      {/* {pokemon.image && (
+        <img key={pokemon.nid} src={pokemon.image} alt={pokemon.id} />
+      )} */}
     </div>
   );
 };
@@ -43,18 +47,9 @@ function propsAreEquals(
   prevProps: PokemonCardProps,
   nextProps: PokemonCardProps
 ) {
-  // console.log(prevProps.pokemon.matched === nextProps.pokemon.matched);
-  // // if (
-  // //   !(
-  // //     prevProps.pokemon.nid === nextProps.pokemon.nid &&
-  // //     prevProps.pokemon.matched === nextProps.pokemon.matched &&
-  // //     prevProps.isSelected === nextProps.isSelected
-  // //   )
-  // // ) {
-
-  // // }
   return (
     prevProps.pokemon.nid === nextProps.pokemon.nid &&
+    prevProps.pokemon.image === nextProps.pokemon.image &&
     prevProps.pokemon.matched === nextProps.pokemon.matched &&
     prevProps.isSelected === nextProps.isSelected
   );

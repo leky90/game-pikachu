@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Game } from "../context/AppContext";
+import { Game, GameMode } from "../context/AppContext";
 import { AppAction } from "../context/AppReducer";
 import useAppContextActions from "./useAppContextActions";
 
@@ -50,6 +50,12 @@ export default function useGamePokemonActions(row = 4, col = 8) {
     });
   };
 
+  const changeGameMode = () => {
+    dispatch({
+      type: AppAction.CHANGE_GAME_MODE,
+    });
+  };
+
   const gameState = getGameState();
   const gameSettings = getGameSettings();
 
@@ -63,5 +69,6 @@ export default function useGamePokemonActions(row = 4, col = 8) {
     replayGame,
     startGame,
     exitGame,
+    changeGameMode,
   };
 }

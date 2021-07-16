@@ -1,28 +1,37 @@
 import {
   AppStore,
+  GameMode,
+  gameOptions,
   GameState,
+  GameStatus,
   initialGameState,
   Page,
+  PointCoords,
 } from "../context/AppContext";
 import {
-  checkAvailableLine,
+  hasConnectLine,
   generatePokemonMatrix,
   makeListPokemons,
-} from "../utils/GamePokemonHelpers";
+  reShufflePokemonList,
+  drawPath,
+} from "../utils/game";
 
 export const setGameReducer = (state: AppStore, payload: any): AppStore => {
-  const pokemons = makeListPokemons();
-  const matrix = generatePokemonMatrix(pokemons);
+  const { row, col } = state.gameSettings.settings;
+  const pokemons = makeListPokemons(row, col);
+  const matrix = generatePokemonMatrix(pokemons, row, col);
+
   return {
     ...state,
     gameSettings: {
+      ...state.gameSettings,
       ...payload,
     },
     gameState: {
       ...state.gameState,
       selectedPokemons: [],
       pokemons,
-      matrix,
+      matrix: [...matrix],
     },
   };
 };
@@ -35,16 +44,19 @@ export const startGameReducer = (state: AppStore): AppStore => {
 };
 
 export const replayGameReducer = (state: AppStore): AppStore => {
-  const pokemons = makeListPokemons(true);
-  const matrix = generatePokemonMatrix(pokemons);
+  const { row, col } = state.gameSettings.settings;
+  const pokemons = makeListPokemons(row, col);
+  const matrix = generatePokemonMatrix(pokemons, row, col);
 
   return {
     ...state,
     gameState: {
       running: false,
+      connectingLinePoints: [],
       selectedPokemons: [],
       pokemons,
-      matrix,
+      status: GameStatus.PENDING,
+      matrix: [...matrix],
     },
   };
 };
@@ -58,12 +70,15 @@ export const exitGameReducer = (state: AppStore): AppStore => {
 };
 
 export const rotatePokemonsReducer = (state: AppStore): AppStore => {
-  const pokemons = makeListPokemons();
-  const matrix = generatePokemonMatrix(pokemons);
+  const { row, col } = state.gameSettings.settings;
+  const pokemons = reShufflePokemonList(state.gameState.pokemons);
+  const matrix = generatePokemonMatrix(pokemons, row, col);
+
   return {
     ...state,
     gameState: {
       ...state.gameState,
+      connectingLinePoints: [],
       selectedPokemons: [],
       pokemons,
       matrix,
@@ -89,27 +104,37 @@ export const selectPokemonCardReducer = (
   const pokemons = state.gameState?.pokemons
     ? { ...state.gameState?.pokemons }
     : {};
-  const totalRow = 4;
-  const totalCol = 8;
+
+  const { row: rowSetting, col: colSetting } = state.gameSettings.settings;
   const [selectedPokemon1, selectedPokemon2] = selectedPokemons;
 
+  let connectingLinePoints: PointCoords[] = [];
+
   if (
-    selectedPokemon1 &&
-    selectedPokemon2 &&
+    selectedPokemon1?.nid &&
+    selectedPokemon2?.nid &&
     pokemons[selectedPokemon1.nid].id === pokemons[selectedPokemon2.nid].id
   ) {
-    const { matched } = checkAvailableLine(
+    const { connected, pathPoints } = hasConnectLine(
       selectedPokemon1,
       selectedPokemon2,
       matrix,
-      totalRow,
-      totalCol
+      rowSetting,
+      colSetting
     );
 
-    if (matched) {
-      pokemons[selectedPokemon1.nid].matched = true;
-      pokemons[selectedPokemon2.nid].matched = true;
-      matrix = generatePokemonMatrix(pokemons);
+    if (connected) {
+      connectingLinePoints = drawPath(pathPoints, rowSetting, colSetting);
+
+      pokemons[selectedPokemon1.nid] = {
+        ...pokemons[selectedPokemon1.nid],
+        matched: true,
+      };
+      pokemons[selectedPokemon2.nid] = {
+        ...pokemons[selectedPokemon2.nid],
+        matched: true,
+      };
+      matrix = generatePokemonMatrix(pokemons, rowSetting, colSetting);
     } else {
       selectedPokemons.length = 0;
     }
@@ -123,9 +148,53 @@ export const selectPokemonCardReducer = (
     ...state,
     gameState: {
       running: true,
+      connectingLinePoints,
       pokemons,
       matrix,
       selectedPokemons,
     } as GameState,
+  };
+};
+
+export const changeGameModeReducer = (state: AppStore): AppStore => {
+  const currentMode = state.gameSettings.settings.mode;
+  let newMode = GameMode.NORMAL;
+  switch (currentMode) {
+    case GameMode.NORMAL:
+      newMode = GameMode.HARD;
+      break;
+
+    case GameMode.HARD:
+      newMode = GameMode.EASY;
+      break;
+
+    default:
+      newMode = GameMode.NORMAL;
+      break;
+  }
+
+  const { row, col } = gameOptions[newMode];
+  const pokemons = makeListPokemons(row, col);
+  const matrix = generatePokemonMatrix(pokemons, row, col);
+
+  return {
+    ...state,
+    gameSettings: {
+      ...state.gameSettings,
+      settings: {
+        ...state.gameSettings.settings,
+        mode: newMode,
+        row,
+        col,
+      },
+    },
+    gameState: {
+      ...state.gameState,
+      matrix,
+      pokemons,
+      running: false,
+      connectingLinePoints: [],
+      selectedPokemons: [],
+    },
   };
 };

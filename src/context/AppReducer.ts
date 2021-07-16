@@ -1,9 +1,6 @@
-import { AppStore, GameState } from "./AppContext";
+import { AppStore } from "./AppContext";
 import {
-  checkAvailableLine,
-  generatePokemonMatrix,
-} from "../utils/GamePokemonHelpers";
-import {
+  changeGameModeReducer,
   exitGameReducer,
   replayGameReducer,
   rotatePokemonsReducer,
@@ -22,6 +19,7 @@ export enum AppAction {
   ROTATE_POKEMONS = "rotate_pokemons",
   REPLAY_GAME = "replay_game",
   EXIT_GAME = "exit_game",
+  CHANGE_GAME_MODE = "change_game_mode",
 }
 
 export interface Action {
@@ -49,6 +47,8 @@ export default function AppReducer(
       return rotatePokemonsReducer(state);
     case AppAction.SELECT_POKEMON:
       return selectPokemonCardReducer(state, action.payload);
+    case AppAction.CHANGE_GAME_MODE:
+      return changeGameModeReducer(state);
     default:
       throw new Error();
   }

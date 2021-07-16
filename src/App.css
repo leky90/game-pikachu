@@ -1,3 +1,9 @@
+img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
 button {
   max-width: 100%;
   width: 230px;
@@ -19,6 +25,7 @@ button {
     #26a0da 51%,
     #314755 100%
   );
+  opacity: 0.7;
 }
 
 button:hover {
@@ -26,6 +33,7 @@ button:hover {
   color: #fff;
   text-decoration: none;
   box-shadow: 0 0 5px #eee;
+  opacity: 1;
 }
 
 .app {
@@ -37,19 +45,37 @@ button:hover {
     rgba(0, 212, 255, 1) 100%
   );
   height: 100vh;
-  min-height: 768px;
-  padding: 40px;
+  min-height: 700px;
+  padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-board {
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  /* padding: 10px; */
+  background-size: auto 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(assets/images/bg-board.png);
+  position: relative;
 }
 
 .game-container {
+  max-width: 1200px;
   width: 100%;
   height: 100%;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.16);
   display: grid;
   grid-template-columns: 4fr 1fr;
-  grid-gap: 10px;
   place-items: center;
 }
 
@@ -61,8 +87,11 @@ button:hover {
   align-items: center;
   border: 1px solid #26a0da;
   border-radius: 10px;
-  margin: 20px;
-  padding: 10px;
+  background-size: auto 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(assets/images/bg-board.png);
+  position: relative;
 }
 
 .game-score {
@@ -71,6 +100,7 @@ button:hover {
 }
 
 .game-control {
+  padding: 16px;
 }
 
 .game-title {
@@ -82,27 +112,125 @@ button:hover {
 
 .game-pokemon {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(10, calc(100% / 10));
+  place-items: stretch;
+  justify-content: center;
   width: 100%;
   height: 100%;
   color: #fff;
+}
+
+.game-overlay {
+  display: grid;
+  grid-template-columns: repeat(10, calc(100% / 10));
   place-items: stretch;
   justify-content: center;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.mode-normal {
+  grid-template-columns: repeat(12, calc(100% / 12));
+}
+
+.mode-easy {
+  grid-template-columns: repeat(10, calc(100% / 10));
+}
+
+.mode-hard {
+  grid-template-columns: repeat(14, calc(100% / 14));
 }
 
 .pokemon-card {
-  border: 1px solid #fff;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid #fff;
   cursor: pointer;
   background-color: #26a0da;
-  transition: all 1.5s;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: all 0.5s;
 }
 
 .pokemon-card.selected {
-  background-color: #020024 !important;
+  background-color: #314755 !important;
 }
 .pokemon-card.hidden {
   opacity: 0;
+}
+
+.pokemon-card img {
+  height: 40px;
+}
+
+.line-card {
+  /* border: 1px solid #26a0da; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: transparent;
+  position: relative;
+}
+
+.line-card::before,
+.line-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: none;
+  transform: translate(-50%, -50%);
+  background-color: #60a5fa;
+  z-index: 100;
+}
+
+.line-card.in-line::before {
+  display: block;
+  background-color: #60a5fa;
+}
+
+.line-card.top-direction::before {
+  width: 4px;
+  height: calc(100% + 2px);
+  transform: translate(-50%, 0);
+}
+
+.line-card.bottom-direction::before {
+  width: 4px;
+  height: calc(100% + 2px);
+  transform: translate(-50%, -100%);
+}
+
+.line-card.right-direction::before {
+  width: calc(100% + 2px);
+  height: 4px;
+  transform: translate(-100%, -50%);
+}
+
+.line-card.left-direction::before {
+  width: calc(100% + 2px);
+  height: 4px;
+  transform: translate(0, -50%);
+}
+
+.line-card.start-point::after {
+  background-color: #bfdbfe;
+}
+
+.line-card.end-point::after {
+  background-color: #3b82f6;
+}
+
+.line-card.start-point::after,
+.line-card.end-point::after {
+  width: 12px;
+  height: 12px;
+  display: block;
+  border-radius: 50%;
+  z-index: 200;
 }

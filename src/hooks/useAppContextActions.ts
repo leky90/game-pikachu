@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import AppContext, { AppStore, Page } from "../context/AppContext";
 import { AppAction } from "../context/AppReducer";
 

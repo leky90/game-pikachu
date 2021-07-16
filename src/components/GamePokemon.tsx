@@ -5,18 +5,21 @@ import useAppContextActions from "../hooks/useAppContextActions";
 type GamePokemonProps = {};
 
 const GamePokemon: FC<GamePokemonProps> = () => {
-  const { getGameState } = useAppContextActions();
+  const { getGameState, getGameSettings } = useAppContextActions();
 
   const { matrix, selectedPokemons } = getGameState();
+  const {
+    settings: { mode },
+  } = getGameSettings();
 
   return (
-    <div className="game-pokemon">
+    <div className={`game-pokemon mode-${mode}`}>
       {matrix &&
         matrix.map((pokemons, index) => (
           <PokemonRow
             key={`row-${index}`}
             rowIndex={index}
-            pokemons={pokemons}
+            cards={pokemons}
             selectedPokemons={selectedPokemons}
           />
         ))}

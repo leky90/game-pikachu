@@ -10,7 +10,7 @@ const BoardGamePage = () => {
   ];
 
   return (
-    <div className="game-board">
+    <div className="main-board">
       <AppNavigation navItems={navItems} />
     </div>
   );
