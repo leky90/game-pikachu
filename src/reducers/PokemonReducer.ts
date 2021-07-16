@@ -174,7 +174,7 @@ export const changeGameModeReducer = (state: AppStore): AppStore => {
       break;
   }
 
-  const { row, col } = gameOptions[newMode];
+  const { row, col, timing, bonusTime } = gameOptions[newMode];
   const pokemons = makeListPokemons(row, col);
   const matrix = generatePokemonMatrix(pokemons, row, col);
 
@@ -185,8 +185,10 @@ export const changeGameModeReducer = (state: AppStore): AppStore => {
       settings: {
         ...state.gameSettings.settings,
         mode: newMode,
+        timing,
         row,
         col,
+        bonusTime,
       },
     },
     gameState: {
@@ -196,6 +198,19 @@ export const changeGameModeReducer = (state: AppStore): AppStore => {
       running: false,
       connectingLinePoints: [],
       selectedPokemons: [],
+    },
+  };
+};
+
+export const changeGameStatusReducer = (
+  state: AppStore,
+  payload: any
+): AppStore => {
+  return {
+    ...state,
+    gameState: {
+      ...state.gameState,
+      status: payload,
     },
   };
 };

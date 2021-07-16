@@ -1,48 +1,61 @@
 import { useEffect, useState } from "react";
+import { GameStatus } from "../context/AppContext";
 import useAppContextActions from "../hooks/useAppContextActions";
 import { timeConvert } from "../utils/time";
 
 type GameInfoProps = {
-  gameTiming: number;
+  failedGame: Function;
+  gameSound: Record<string, Function>;
+  gamePoints: number;
 };
 
-const GameInfo = ({ gameTiming }: GameInfoProps) => {
-  const [timing, setTiming] = useState(gameTiming);
+const GameInfo = ({ failedGame, gameSound, gamePoints }: GameInfoProps) => {
   const { getGameSettings, getGameState } = useAppContextActions();
-
   const gameSettings = getGameSettings();
   const gameState = getGameState();
+  const { timing: timingSetting, bonusTime } = gameSettings.settings;
 
-  const points = Object.keys(gameState.pokemons).reduce((count, pokemonId) => {
-    if (gameState.pokemons[pokemonId].matched) count++;
-    return count;
-  }, 0);
+  let [limitTime, setLimitTime] = useState<number>(timingSetting);
+
+  useEffect(() => {
+    setLimitTime(limitTime + bonusTime);
+  }, [gamePoints]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined = undefined;
-    if (gameState.running) {
+
+    if (
+      gameState.running ||
+      (gameState.status !== GameStatus.COMPLETED &&
+        gameState.status !== GameStatus.FAILED)
+    ) {
       timeoutId = setTimeout(() => {
-        if (gameTiming > 0) {
-          setTiming(timing - 1);
+        if (timingSetting > 0) {
+          if (limitTime === 60) {
+            gameSound.playNearlyEndTimeSound();
+          }
+          if (limitTime <= 0) {
+            failedGame();
+          } else {
+            setLimitTime(limitTime - 1);
+          }
         } else {
-          setTiming(timing + 1);
+          setLimitTime(limitTime + 1);
         }
       }, 1000);
     } else {
-      setTiming(0);
+      setLimitTime(timingSetting);
     }
     return () => {
-      if (!gameState.running) {
-        if (timeoutId) clearTimeout(timeoutId);
-      }
+      if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [timing, gameState.running, gameTiming]);
+  }, [limitTime, gameState.running, timingSetting]);
 
   return (
     <div className="game-info">
       <h1 className="game-title">{gameSettings?.name}</h1>
-      <p className="game-score">Point: {points}</p>
-      <p className="game-score">Timing: {timeConvert(timing)}</p>
+      <p className="game-score">Time bonus: {(gamePoints / 2) * bonusTime}</p>
+      <p className="game-score">Timing remaining: {timeConvert(limitTime)}</p>
     </div>
   );
 };

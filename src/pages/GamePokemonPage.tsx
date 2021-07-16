@@ -4,7 +4,6 @@ import GameOverlay from "../components/GameOverlay";
 import GamePokemon from "../components/GamePokemon";
 import GameSettings from "../components/GameSettings";
 import useGamePokemonActions from "../hooks/useGamePokemonActions";
-import GameResult from "../components/GameResult";
 import { memo } from "react";
 
 const GamePokemonPage = () => {
@@ -13,9 +12,12 @@ const GamePokemonPage = () => {
     startGame,
     rotatePokemons,
     exitGame,
+    failedGame,
     changeGameMode,
     gameState,
     gameSettings,
+    gameSound,
+    gamePoints,
   } = useGamePokemonActions();
 
   let navItems = [
@@ -43,10 +45,13 @@ const GamePokemonPage = () => {
       <div className="game-board">
         {gameState.connectingLinePoints.length > 0 && <GameOverlay />}
         {gameState.running && <GamePokemon />}
-        <GameResult />
       </div>
       <div className="game-control">
-        <GameInfo gameTiming={gameSettings.settings.timing} />
+        <GameInfo
+          failedGame={failedGame}
+          gameSound={gameSound}
+          gamePoints={gamePoints}
+        />
         {!gameState.running && (
           <GameSettings
             mode={gameSettings.settings.mode}

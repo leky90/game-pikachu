@@ -58,6 +58,7 @@ export type GameSettings = {
   settings: {
     audio: boolean;
     timing: number;
+    bonusTime: number;
     mode: GameMode;
     row: number;
     col: number;
@@ -69,6 +70,7 @@ export type GameOptions = {
     row: number;
     col: number;
     timing: number;
+    bonusTime: number;
   };
 };
 
@@ -88,20 +90,23 @@ export interface AppStore {
 }
 
 export const gameOptions: GameOptions = {
-  [GameMode.NORMAL]: {
-    row: 8,
-    col: 10,
-    timing: 1200,
-  },
   [GameMode.EASY]: {
     row: 6,
     col: 8,
-    timing: 1800,
+    timing: 600,
+    bonusTime: 15,
+  },
+  [GameMode.NORMAL]: {
+    row: 8,
+    col: 10,
+    timing: 600,
+    bonusTime: 10,
   },
   [GameMode.HARD]: {
     row: 10,
     col: 12,
     timing: 600,
+    bonusTime: 5,
   },
 };
 
@@ -109,7 +114,8 @@ export const initialGameSettings: GameSettings = {
   name: null,
   settings: {
     audio: true,
-    timing: 0,
+    timing: gameOptions[GameMode.NORMAL].timing,
+    bonusTime: gameOptions[GameMode.NORMAL].bonusTime,
     mode: GameMode.NORMAL,
     row: gameOptions[GameMode.NORMAL].row,
     col: gameOptions[GameMode.NORMAL].col,

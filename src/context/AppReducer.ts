@@ -1,6 +1,7 @@
 import { AppStore } from "./AppContext";
 import {
   changeGameModeReducer,
+  changeGameStatusReducer,
   exitGameReducer,
   replayGameReducer,
   rotatePokemonsReducer,
@@ -13,6 +14,8 @@ export enum AppAction {
   NAVIGATE_PAGE = "navigate_page",
   START_GAME = "start_game",
   SET_GAME = "set_game",
+  FAILED_GAME = "failed_game",
+  COMPLETED_GAME = "completed_game",
   RESET_GAME = "reset_game",
   SELECT_POKEMON = "select_pokemon",
   CHECK_RULE = "check_rule",
@@ -39,6 +42,9 @@ export default function AppReducer(
       return setGameReducer(state, action.payload);
     case AppAction.START_GAME:
       return startGameReducer(state);
+    case AppAction.FAILED_GAME:
+    case AppAction.COMPLETED_GAME:
+      return changeGameStatusReducer(state, action.payload);
     case AppAction.REPLAY_GAME:
       return replayGameReducer(state);
     case AppAction.EXIT_GAME:

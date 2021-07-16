@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Game } from "../context/AppContext";
+import { Game, GameStatus } from "../context/AppContext";
 import { AppAction } from "../context/AppReducer";
 import useAppContextActions from "./useAppContextActions";
 import usePlaySound from "./usePlaySound";
@@ -13,7 +13,12 @@ export default function useGamePokemonActions(row = 4, col = 8) {
     playGlugSound,
     playBiteSound,
     playRisingPopSound,
-    playEndTimeSound,
+    playNearlyEndTimeSound,
+    playFailedGameSound,
+    playCompleteGameSound,
+    playGameSong,
+    stopGameSong,
+    pauseGameSong,
   } = usePlaySound();
   const { dispatch, getGameState, getGameSettings } = useAppContextActions();
 
@@ -26,6 +31,22 @@ export default function useGamePokemonActions(row = 4, col = 8) {
     });
   };
 
+  const failedGame = () => {
+    playFailedGameSound();
+    dispatch({
+      type: AppAction.FAILED_GAME,
+      payload: GameStatus.FAILED,
+    });
+  };
+
+  const completedGame = () => {
+    playCompleteGameSound();
+    dispatch({
+      type: AppAction.COMPLETED_GAME,
+      payload: GameStatus.COMPLETED,
+    });
+  };
+
   const rotatePokemons = () => {
     playMenuOpen();
     dispatch({
@@ -33,13 +54,9 @@ export default function useGamePokemonActions(row = 4, col = 8) {
     });
   };
 
-  useEffect(() => {
-    initGame();
-    return () => {};
-  }, []);
-
   const replayGame = () => {
     playEnableSound();
+    pauseGameSong();
     dispatch({
       type: AppAction.REPLAY_GAME,
     });
@@ -47,6 +64,7 @@ export default function useGamePokemonActions(row = 4, col = 8) {
 
   const exitGame = () => {
     playDisableSound();
+    pauseGameSong();
     dispatch({
       type: AppAction.EXIT_GAME,
       payload: {
@@ -56,7 +74,8 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   };
 
   const startGame = () => {
-    playFanfareSound();
+    // playFanfareSound();
+    playGameSong();
     dispatch({
       type: AppAction.START_GAME,
       payload: {
@@ -75,17 +94,38 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   const gameState = getGameState();
   const gameSettings = getGameSettings();
 
-  if (gameState.connectingLinePoints.length > 1) {
-    playRisingPopSound();
-  }
+  const gamePoints = Object.keys(gameState.pokemons).reduce(
+    (count, pokemonId) => {
+      if (gameState.pokemons[pokemonId].matched) count++;
+      return count;
+    },
+    0
+  );
 
-  if (gameState.connectingLinePoints.length === 1) {
-    playGlugSound();
-  }
+  useEffect(() => {
+    initGame();
+    return () => {};
+  }, []);
 
-  if (gameState.selectedPokemons.length === 1) {
-    playBiteSound();
-  }
+  useEffect(() => {
+    if (Object.keys(gameState.pokemons).length === gamePoints) {
+      completedGame();
+    }
+  }, [gamePoints]);
+
+  useEffect(() => {
+    if (gameState.connectingLinePoints.length > 1) {
+      playRisingPopSound();
+    }
+
+    if (gameState.connectingLinePoints.length === 1) {
+      playGlugSound();
+    }
+
+    if (gameState.selectedPokemons.length === 1) {
+      playBiteSound();
+    }
+  }, [gameState.connectingLinePoints.length]);
 
   return {
     row,
@@ -93,10 +133,13 @@ export default function useGamePokemonActions(row = 4, col = 8) {
     pokemons: gameState.pokemons,
     gameSettings,
     gameState,
+    gamePoints,
     rotatePokemons,
     replayGame,
     startGame,
     exitGame,
+    failedGame,
+    completedGame,
     changeGameMode,
     gameSound: {
       playMenuOpen,
@@ -106,7 +149,9 @@ export default function useGamePokemonActions(row = 4, col = 8) {
       playGlugSound,
       playBiteSound,
       playRisingPopSound,
-      playEndTimeSound,
+      playNearlyEndTimeSound,
+      playFailedGameSound,
+      playCompleteGameSound,
     },
   };
 }
