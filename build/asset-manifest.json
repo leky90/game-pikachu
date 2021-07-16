@@ -1,0 +1,37 @@
+{
+  "files": {
+    "main.css": "/game-pikachu/static/css/main.5b27a0f0.chunk.css",
+    "main.js": "/game-pikachu/static/js/main.d74a18e7.chunk.js",
+    "main.js.map": "/game-pikachu/static/js/main.d74a18e7.chunk.js.map",
+    "runtime-main.js": "/game-pikachu/static/js/runtime-main.06fb7f47.js",
+    "runtime-main.js.map": "/game-pikachu/static/js/runtime-main.06fb7f47.js.map",
+    "static/js/2.c4cf571c.chunk.js": "/game-pikachu/static/js/2.c4cf571c.chunk.js",
+    "static/js/2.c4cf571c.chunk.js.map": "/game-pikachu/static/js/2.c4cf571c.chunk.js.map",
+    "static/js/3.7e0ffcb4.chunk.js": "/game-pikachu/static/js/3.7e0ffcb4.chunk.js",
+    "static/js/3.7e0ffcb4.chunk.js.map": "/game-pikachu/static/js/3.7e0ffcb4.chunk.js.map",
+    "static/js/4.c6139a38.chunk.js": "/game-pikachu/static/js/4.c6139a38.chunk.js",
+    "static/js/4.c6139a38.chunk.js.map": "/game-pikachu/static/js/4.c6139a38.chunk.js.map",
+    "index.html": "/game-pikachu/index.html",
+    "static/css/main.5b27a0f0.chunk.css.map": "/game-pikachu/static/css/main.5b27a0f0.chunk.css.map",
+    "static/js/2.c4cf571c.chunk.js.LICENSE.txt": "/game-pikachu/static/js/2.c4cf571c.chunk.js.LICENSE.txt",
+    "static/js/3.7e0ffcb4.chunk.js.LICENSE.txt": "/game-pikachu/static/js/3.7e0ffcb4.chunk.js.LICENSE.txt",
+    "static/media/1-trieu-like.90d13956.mp3": "/game-pikachu/static/media/1-trieu-like.90d13956.mp3",
+    "static/media/App.css": "/game-pikachu/static/media/bg-board.41d2281b.png",
+    "static/media/bite.aea7caff.mp3": "/game-pikachu/static/media/bite.aea7caff.mp3",
+    "static/media/disable-sound.477d0574.mp3": "/game-pikachu/static/media/disable-sound.477d0574.mp3",
+    "static/media/enable-sound.00d0be95.mp3": "/game-pikachu/static/media/enable-sound.00d0be95.mp3",
+    "static/media/fanfare.8807360a.mp3": "/game-pikachu/static/media/fanfare.8807360a.mp3",
+    "static/media/game-completion.a7022fca.wav": "/game-pikachu/static/media/game-completion.a7022fca.wav",
+    "static/media/gamers-fail-game.1bab0c1d.mp3": "/game-pikachu/static/media/gamers-fail-game.1bab0c1d.mp3",
+    "static/media/glug-a.b9f1fa99.mp3": "/game-pikachu/static/media/glug-a.b9f1fa99.mp3",
+    "static/media/menu-open.019cf647.mp3": "/game-pikachu/static/media/menu-open.019cf647.mp3",
+    "static/media/rising-pops.7eda816b.mp3": "/game-pikachu/static/media/rising-pops.7eda816b.mp3",
+    "static/media/time-limited.3894918f.wav": "/game-pikachu/static/media/time-limited.3894918f.wav"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.06fb7f47.js",
+    "static/js/2.c4cf571c.chunk.js",
+    "static/css/main.5b27a0f0.chunk.css",
+    "static/js/main.d74a18e7.chunk.js"
+  ]
+}
