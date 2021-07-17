@@ -86,6 +86,16 @@ export const rotatePokemonsReducer = (state: AppStore): AppStore => {
   };
 };
 
+export const unSelectPokemonCardReducer = (state: AppStore): AppStore => {
+  return {
+    ...state,
+    gameState: {
+      ...state.gameState,
+      selectedPokemons: [],
+    },
+  };
+};
+
 export const selectPokemonCardReducer = (
   state: AppStore,
   payload: any

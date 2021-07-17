@@ -104,6 +104,12 @@ export default function useGamePokemonActions(row = 4, col = 8) {
 
   useEffect(() => {
     initGame();
+    window.oncontextmenu = () => {
+      playDisableSound();
+      dispatch({
+        type: AppAction.UNSELECT_POKEMON,
+      });
+    };
     return () => {};
   }, []);
 

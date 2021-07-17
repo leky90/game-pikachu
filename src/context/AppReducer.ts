@@ -8,6 +8,7 @@ import {
   selectPokemonCardReducer,
   setGameReducer,
   startGameReducer,
+  unSelectPokemonCardReducer,
 } from "../reducers/PokemonReducer";
 
 export enum AppAction {
@@ -18,6 +19,7 @@ export enum AppAction {
   COMPLETED_GAME = "completed_game",
   RESET_GAME = "reset_game",
   SELECT_POKEMON = "select_pokemon",
+  UNSELECT_POKEMON = "unselect_pokemon",
   CHECK_RULE = "check_rule",
   ROTATE_POKEMONS = "rotate_pokemons",
   REPLAY_GAME = "replay_game",
@@ -53,6 +55,8 @@ export default function AppReducer(
       return rotatePokemonsReducer(state);
     case AppAction.ROTATE_POKEMONS:
       return rotatePokemonsReducer(state);
+    case AppAction.UNSELECT_POKEMON:
+      return unSelectPokemonCardReducer(state);
     case AppAction.SELECT_POKEMON:
       return selectPokemonCardReducer(state, action.payload);
     case AppAction.CHANGE_GAME_MODE:
