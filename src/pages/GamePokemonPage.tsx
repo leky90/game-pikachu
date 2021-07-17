@@ -60,6 +60,7 @@ const GamePokemonPage = () => {
           />
         )}
         <AppNavigation navItems={navItems} />
+        <p className="mobile-helper">Scroll down to play game on mobile</p>
       </div>
     </div>
   );

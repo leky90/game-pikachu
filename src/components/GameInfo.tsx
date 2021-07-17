@@ -24,11 +24,7 @@ const GameInfo = ({ failedGame, gameSound, gamePoints }: GameInfoProps) => {
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined = undefined;
 
-    if (
-      gameState.running ||
-      (gameState.status !== GameStatus.COMPLETED &&
-        gameState.status !== GameStatus.FAILED)
-    ) {
+    if (gameState.running || gameState.status !== GameStatus.PENDING) {
       timeoutId = setTimeout(() => {
         if (timingSetting > 0) {
           if (limitTime === 60) {

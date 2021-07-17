@@ -36,6 +36,10 @@ button:hover {
   opacity: 1;
 }
 
+.mobile-helper {
+  display: none;
+}
+
 .app {
   background: rgb(2, 0, 36);
   background: radial-gradient(
@@ -77,6 +81,7 @@ button:hover {
   display: grid;
   grid-template-columns: 4fr 1fr;
   place-items: center;
+  grid-template-areas: "gameBoard gameInfo";
 }
 
 .game-board {
@@ -92,6 +97,7 @@ button:hover {
   background-repeat: no-repeat;
   background-image: url(assets/images/bg-board.png);
   position: relative;
+  grid-area: gameBoard;
 }
 
 .game-score {
@@ -101,6 +107,7 @@ button:hover {
 
 .game-control {
   padding: 16px;
+  grid-area: gameInfo;
 }
 
 .game-title {
@@ -233,4 +240,26 @@ button:hover {
   display: block;
   border-radius: 50%;
   z-index: 200;
+}
+
+@media screen and (max-width: 1024px) {
+  .app {
+    padding: 0;
+    min-height: auto;
+  }
+  .game-container {
+    padding: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: 100vh;
+    grid-template-areas: "gameInfo" "gameBoard";
+  }
+  .game-board {
+    width: 100vw;
+    height: 100vh;
+    border: 0;
+  }
+  .mobile-helper {
+    display: block;
+    color: #60a5fa;
+  }
 }
