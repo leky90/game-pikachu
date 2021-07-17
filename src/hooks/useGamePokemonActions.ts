@@ -74,8 +74,8 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   };
 
   const startGame = () => {
-    // playFanfareSound();
-    playGameSong();
+    playFanfareSound();
+    // playGameSong();
     dispatch({
       type: AppAction.START_GAME,
       payload: {
