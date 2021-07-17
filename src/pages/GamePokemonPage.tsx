@@ -14,6 +14,7 @@ const GamePokemonPage = () => {
     exitGame,
     failedGame,
     changeGameMode,
+    selectPokemon,
     gameState,
     gameSettings,
     gameSound,
@@ -44,7 +45,7 @@ const GamePokemonPage = () => {
     <div className="game-container">
       <div className="game-board">
         {gameState.connectingLinePoints.length > 0 && <GameOverlay />}
-        {gameState.running && <GamePokemon />}
+        {gameState.running && <GamePokemon selectPokemon={selectPokemon} />}
       </div>
       <div className="game-control">
         <GameInfo

@@ -4,7 +4,7 @@ import useAppContextActions from "../hooks/useAppContextActions";
 import { timeConvert } from "../utils/time";
 
 type GameInfoProps = {
-  failedGame: Function;
+  failedGame: () => void;
   gameSound: Record<string, Function>;
   gamePoints: number;
 };

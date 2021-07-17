@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { Game, GameStatus } from "../context/AppContext";
 import { AppAction } from "../context/AppReducer";
 import useAppContextActions from "./useAppContextActions";
@@ -56,7 +56,7 @@ export default function useGamePokemonActions(row = 4, col = 8) {
 
   const replayGame = () => {
     playEnableSound();
-    pauseGameSong();
+    // pauseGameSong();
     dispatch({
       type: AppAction.REPLAY_GAME,
     });
@@ -91,6 +91,18 @@ export default function useGamePokemonActions(row = 4, col = 8) {
     });
   };
 
+  const selectPokemon = (
+    pokemonId: string,
+    rowIndex: number,
+    colIndex: number
+  ) => {
+    playBiteSound();
+    dispatch({
+      type: AppAction.SELECT_POKEMON,
+      payload: { nid: pokemonId, rowIndex, colIndex },
+    });
+  };
+
   const gameState = getGameState();
   const gameSettings = getGameSettings();
 
@@ -104,14 +116,27 @@ export default function useGamePokemonActions(row = 4, col = 8) {
 
   useEffect(() => {
     initGame();
-    window.oncontextmenu = () => {
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    document.body.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
       playDisableSound();
       dispatch({
         type: AppAction.UNSELECT_POKEMON,
       });
+    });
+    return () => {
+      document.body.removeEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        playDisableSound();
+        dispatch({
+          type: AppAction.UNSELECT_POKEMON,
+        });
+      });
     };
-    return () => {};
-  }, []);
+  }, [gameState.running]);
 
   useEffect(() => {
     if (Object.keys(gameState.pokemons).length === gamePoints) {
@@ -150,6 +175,7 @@ export default function useGamePokemonActions(row = 4, col = 8) {
     failedGame,
     completedGame,
     changeGameMode,
+    selectPokemon,
     gameSound: {
       playMenuOpen,
       playDisableSound,
