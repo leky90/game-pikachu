@@ -64,7 +64,7 @@ export default function useGamePokemonActions(row = 4, col = 8) {
 
   const exitGame = () => {
     playDisableSound();
-    pauseGameSong();
+    // pauseGameSong();
     dispatch({
       type: AppAction.EXIT_GAME,
       payload: {
@@ -116,6 +116,9 @@ export default function useGamePokemonActions(row = 4, col = 8) {
   useEffect(() => {
     if (gameState.connectingLinePoints.length > 1) {
       playRisingPopSound();
+      // dispatch({
+      //   type: AppAction.CHECK_RULE,
+      // });
     }
 
     if (gameState.connectingLinePoints.length === 1) {

@@ -49,6 +49,8 @@ export default function AppReducer(
       return replayGameReducer(state);
     case AppAction.EXIT_GAME:
       return exitGameReducer(state);
+    case AppAction.CHECK_RULE:
+      return rotatePokemonsReducer(state);
     case AppAction.ROTATE_POKEMONS:
       return rotatePokemonsReducer(state);
     case AppAction.SELECT_POKEMON:
