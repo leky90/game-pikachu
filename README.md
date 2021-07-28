@@ -1,6 +1,8 @@
 
 # Build a mini game (pokemon) with React + Context API + Typescript
 
+**Demo game**: https://leky90.github.io/game-pikachu/build/
+
 **Requirement:** Node v12+
 
 **Pull node modules**: `yarn`
