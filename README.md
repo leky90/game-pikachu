@@ -1,5 +1,5 @@
 
-# Build a mini game (pokemon) with React + Context API
+# Build a mini game (pokemon) with React + Context API + Typescript
 
 **Requirement:** Node v12+
 
